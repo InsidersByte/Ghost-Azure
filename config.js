@@ -10,8 +10,12 @@ var path = require('path'),
     mysqlUsername = process.env.MYSQL_USERNAME,
     mysqlPassword = process.env.MYSQL_PASSWORD,
     mysqlDatabase = process.env.MYSQL_DATABASE,
+    blobStorageConnectionString = process.env.BLOB_STORAGE_CONNCTION_STRING,
+    blobStorageContainerName = process.env.BLOB_STORAGE_CONTAINER_NAME,
+    blobStorageCdnUrl = process.env.BLOB_STORAGE_CDN_URL,
     config,
-    database;
+    database,
+    storage;
 
 // Azure Feature
 // ------------------------------------------------------------------------
@@ -45,11 +49,23 @@ if (mysqlHost) {
   console.log(database);
 }
 
+if (blobStorageConnectionString) {
+  storage = {
+    active: 'azure-blob-storage',
+    'azure-blob-storage': {
+      connectionString: blobStorageConnectionString,
+      container: blobStorageContainerName,
+      cdnUrl: blobStorageCdnUrl,
+    }
+  }
+  console.log(storage);
+}
+
 config = {
     // ### Development **(default)**
     development: {
         // The url to use when providing links to the site, E.g. in RSS and email.
-        url: websiteUrl,
+        url: 'http://localhost:2368',
 
         // Visit http://support.ghost.org/mail for instructions
          mail: {
@@ -64,6 +80,7 @@ config = {
              from: process.env.emailFromAddress // 'from' address when sending emails
          },
 
+        storage: storage ? storage: undefined,
         database: database ? database : {
             client: 'sqlite3',
             connection: {
@@ -75,7 +92,7 @@ config = {
             // Host to be passed to node's `net.Server#listen()`
             host: '127.0.0.1',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
-            port: process.env.PORT
+            port: 2368
         },
         paths: {
             contentPath: path.join(__dirname, '/content/')
@@ -102,6 +119,7 @@ config = {
          },
          from: process.env.emailFromAddress // 'from' address when sending emails
         },
+        storage: storage ? storage: undefined,
         database: database ? database : {
             client: 'sqlite3',
             connection: {
