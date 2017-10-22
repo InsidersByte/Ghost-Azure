@@ -23,7 +23,6 @@ var path = require('path'),
 // If it isn't set, we'll go with the default sitename.
 if (!websiteUrl || websiteUrl === '' ||  websiteUrl.length === 0) {
     websiteUrl = 'http://' + process.env.siteName + '.azurewebsites.net';
-    console.log(websiteUrl);
 }
 
 if (!websiteUrlSSL || websiteUrlSSL === '' ||  websiteUrlSSL.length === 0) {
@@ -32,7 +31,6 @@ if (!websiteUrlSSL || websiteUrlSSL === '' ||  websiteUrlSSL.length === 0) {
     // represent the siteName and the full DNS name respectively.
     // using the WEBSITE_HOSTNAME we don't have to append anything and would work in ASE too.
     websiteUrlSSL = 'https://' + process.env.WEBSITE_HOSTNAME;
-    console.log(websiteUrlSSL);
 }
 
 if (mysqlHost) {
@@ -46,7 +44,6 @@ if (mysqlHost) {
        charset  : 'utf8'
     }
   }
-  console.log(database);
 }
 
 if (blobStorageConnectionString) {
@@ -58,7 +55,6 @@ if (blobStorageConnectionString) {
       cdnUrl: blobStorageCdnUrl,
     }
   }
-  console.log(storage);
 }
 
 config = {
